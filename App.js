@@ -4,8 +4,9 @@ import { Container,Text, Header, Content, Card, CardItem,Body,Item, Label, Input
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import Registro from './src/Registro';
-import Login from './src/Login'
-import Principal from './src/Principal'
+import Login from './src/Login';
+import Principal from './src/Principal';
+import Indicator from './src/Indicator'
 
 const Stack = createStackNavigator();
 
@@ -22,6 +23,10 @@ const App:  () => React$Node = () =>{
          <Stack.Screen 
         name="Principal" 
         component={Principal} />
+        
+        
+    
+        
       </Stack.Navigator>
     </NavigationContainer>
   );

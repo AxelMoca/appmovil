@@ -1,9 +1,11 @@
 import React,{Component} from 'react';
-import {View, StyleSheet, Alert,Button, TextInput} from 'react-native';
+import {View, StyleSheet, Alert,Button, TextInput,ActivityIndicator} from 'react-native';
 import { Container,Text, Header, Content, Card, CardItem,Body,Item, Label, Input,Icon} from "native-base";
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import Principal from './Principal'
+import Indicator from './Indicator'
+
+
 
 
 function Login({navigation}) {
@@ -11,6 +13,7 @@ function Login({navigation}) {
   const [postUser, setPostUser] = React.useState('');
   const [postPass, getPostPass] = React.useState('');
   return (
+            
        <Container>
         <Header />
         <Content padder contentContainerStyle = {misEstilos.content}>
@@ -33,20 +36,19 @@ function Login({navigation}) {
                    value={postPass}
                    onChangeText={getPostPass}/>
                 </Item>
-              </Body>
-            </CardItem>
-            <CardItem style={misEstilos.container}>
-            <Button
+                <Button
               onPress={() => navigation.navigate('Principal',{pass:postUser,user:postPass})}
               title="Ingresar"
             />
-            </CardItem>
-            <CardItem footer bordered style = {misEstilos.container}>
             <Button 
             title="Registrarse"
             onPress={() => navigation.navigate('Registro')}  
               /> 
+              </Body>
             </CardItem>
+            <CardItem style={misEstilos.container}>
+            </CardItem>
+
           </Card>
 
         </Content>
@@ -70,7 +72,13 @@ const misEstilos = StyleSheet.create({
         flexDirection: 'column', 
         justifyContent: 'center',
         alignItems: 'center',
-    },
+  },
+  cargador: {
+    flex: 1,
+    justifyContent: 'center',
+    backgroundColor:'#ffffff'
+
+    }
     
 });
 
