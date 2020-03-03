@@ -1,8 +1,9 @@
 import React,{Component} from 'react';
-import {View, StyleSheet, Alert,Button, TextInput,ActivityIndicator} from 'react-native';
+import {View, StyleSheet, Alert,Button, TextInput,ActivityIndicator,Switch} from 'react-native';
 import { Container,Text, Header, Content, Card, CardItem,Body,Item, Label, Input,Icon} from "native-base";
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
+
 import Indicator from './Indicator'
 
 
@@ -12,6 +13,17 @@ function Login({navigation}) {
 
   const [postUser, setPostUser] = React.useState('');
   const [postPass, getPostPass] = React.useState('');
+
+   state = {
+    switchValue: true,
+  };
+
+  _handleToggleSwitch = () =>
+    this.setState(state => ({
+      switchValue: !state.switchValue,
+    }));
+
+  
   return (
             
        <Container>
@@ -48,6 +60,10 @@ function Login({navigation}) {
             </CardItem>
             <CardItem style={misEstilos.container}>
             </CardItem>
+            <Switch nValueChange={this._handleToggleSwitch}
+          value={this.state.switchValue}
+          onTintColor={'orange'}
+          tintColor={'grey'}/>
 
           </Card>
 

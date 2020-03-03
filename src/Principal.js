@@ -16,6 +16,8 @@ function Principal({route,navegar}){
             toggleVisible();
         }, 1000);
     }, []);
+
+    
  React.useEffect(() => {
     if (route.params?.pass && route.params?.user){
       // Post updated, do something with `route.params.post`
