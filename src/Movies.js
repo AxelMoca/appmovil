@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import {View,Text, ActivityIndicator, StyleSheet} from 'react-native';
-import {  Header,Button,Item,Icon, CardItem } from 'native-base';
+import {View,Text, ActivityIndicator} from 'react-native';
 import { FlatList } from 'react-native-gesture-handler';
 
 class Movies extends Component{
@@ -10,16 +9,13 @@ class Movies extends Component{
       isLoading:true,
     }
   }//end constructor
-  //Lo que está en --- async componentDidMount() ---  se ejecuta independientemente de lo que se este haciendo
-  // --- await --- Una promesa es una respuesta, hay promesas verdaderas(regresa los datos correctamente) 
-  // y falsas
   async componentDidMount(){
     try{
-      const response = await fetch('https://swapi.co/api/planets/?page=1');
+      const response = await fetch('https://reactnative.dev/movies.json');
       const responseJson = await response.json();
       this.setState({
         isLoading: false,
-        dataSource: responseJson.results,
+        dataSource: responseJson.movies,
       },function(){
       });
     }catch(error){
@@ -34,32 +30,18 @@ class Movies extends Component{
           <ActivityIndicator />
         </View>
       );
-    }
+    }// end if
     return(
       <View>
-      <Header>
-            <Text style={style}>
-               Planetas
-            </Text>
-      </Header>
-        <CardItem>
-          <FlatList 
-            data={this.state.dataSource}
-            renderItem={({item}) => 
-              <Text>  {item.name} ,{item.diameter}</Text>
-
-            }
-            keyExtractor = {({name},index)=>name} />
-        </CardItem>
+        <FlatList 
+          data={this.state.dataSource}
+          renderItem={({item}) => 
+            <Text>{item.title},{item.releaseYear}</Text>
+          }
+          keyExtractor = {({id},index)=>id} />
       </View>
     );
-  }
-}
-
-const style = {
-    color: 'white',
-    fontSize: 30,
-};
+  }//end render
+}//end class
 
 export default Movies;
-

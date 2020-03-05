@@ -58,6 +58,10 @@ function Login({navigation}) {
               /> 
               <Button 
             title="Planetas"
+            onPress={() => navigation.navigate('Planetas')}  
+              /> 
+              <Button 
+            title="Peliculas"
             onPress={() => navigation.navigate('Movies')}  
               /> 
               </Body>
