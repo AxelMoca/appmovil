@@ -56,6 +56,10 @@ function Login({navigation}) {
             title="Registrarse"
             onPress={() => navigation.navigate('Registro')}  
               /> 
+              <Button 
+            title="Planetas"
+            onPress={() => navigation.navigate('Movies')}  
+              /> 
               </Body>
             </CardItem>
             <CardItem style={misEstilos.container}>
