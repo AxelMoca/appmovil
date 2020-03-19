@@ -1,11 +1,55 @@
 import React,{Component} from 'react';
-import {View, StyleSheet, Alert, TextInput} from 'react-native';
+import {AppRegisrty,View, StyleSheet, Alert, TextInput} from 'react-native';
 import { Container,Button,Text, Header, Content, Card, CardItem,Body,Item, Label, Input,Icon} from "native-base";
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
 
 class Registro extends Component {
+  mensaje = ()=>{alert('Datos Registrados Exitosamente')};
+    constructor(props){
+     super(props);
+    this.state = {
+      TextInputNombre: '',
+      TextInputPass: '',
+      TextInputCorreo: ''
+  }
+}
+
+  mensaje = ()=>{alert('Datos guardados')};
+  userRegister = () =>{
+		
+		 const {TextInputNombre} = this.state;
+    const {TextInputPass} = this.state;
+    const {TextInputCorreo} = this.state;
+		
+		
+		fetch('http://192.168.1.68/Base/user_register.php', {
+			method: 'post',
+			header:{
+				'Accept': 'application/json',
+				'Content-type': 'application/json'
+			},
+			body:JSON.stringify({
+				pUsuario: TextInputNombre,
+        pPass: TextInputPass,
+        pCorreo: TextInputCorreo,
+			})
+			
+		})
+		.then((response) => response.text())
+      .then((responseData) =>{
+        //alert(responseData);
+        if(responseData==1){
+          Alert.alert("Registro exitoso");
+        }else{
+          Alert.alert("Ocurrió un error, asegurate de llenar correctamente todos los campos");
+        }
+      })
+      .catch((error)=>{
+          console.error(error);
+      });
+  }
   render(){
   const navegar = this.props.navigation;
     return(
@@ -20,15 +64,15 @@ class Registro extends Component {
               <Body style = {misEstilos.body}>
                 <Item inlineLabel>
                   <Icon type= 'FontAwesome' name= 'user'></Icon>
-                  <Input placeholder= 'Nombre de usuario'/>
+                  <TextInput placeholder= 'Username' onChangeText={TextInputNombre =>this.setState({TextInputNombre})}/>
                 </Item>
                 <Item inlineLabel last>
                   <Icon type= 'MaterialCommunityIcons' name= 'email'></Icon>
-                  <Input placeholder= 'Correo'/>
+                  <Input placeholder = 'Correo' onChangeText={TextInputCorreo =>this.setState({TextInputCorreo})}/>
                 </Item>
                 <Item inlineLabel last>
                   <Icon type= 'FontAwesome' name= 'lock'></Icon>
-                  <Input placeholder= 'Contraseña'/>
+                  <TextInput placeholder = 'Constraseña' onChangeText={TextInputPass =>this.setState({TextInputPass})}/>
                 </Item>
                 <Item inlineLabel last>
                   <Icon type= 'FontAwesome' name= 'lock'></Icon>
@@ -40,6 +84,7 @@ class Registro extends Component {
              <Button  style= {misEstilos.container} onPress={() => navegar.navigate                   ('Login')}>
             <Text>Registrar</Text>
              </Button> 
+             
             </CardItem>
           </Card>
           <Button full>
