@@ -1,58 +1,27 @@
-import React,{Component} from 'react';
-import {AppRegisrty,View, StyleSheet, Alert, TextInput} from 'react-native';
+import React,{Component,useState,useEffect} from 'react';
+import {View, StyleSheet, Alert, TextInput,TouchableOpacity} from 'react-native';
 import { Container,Button,Text, Header, Content, Card, CardItem,Body,Item, Label, Input,Icon} from "native-base";
-import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
+import api from '../Data/api';
+
+
 
 
 class Registro extends Component {
-  mensaje = ()=>{alert('Datos Registrados Exitosamente')};
-    constructor(props){
+  constructor(props){
      super(props);
     this.state = {
-      TextInputNombre: '',
-      TextInputPass: '',
-      TextInputCorreo: ''
+    user:'',
+    email:'',
+    pass:''};
   }
-}
 
   mensaje = ()=>{alert('Datos guardados')};
-  userRegister = () =>{
-		
-		 const {TextInputNombre} = this.state;
-    const {TextInputPass} = this.state;
-    const {TextInputCorreo} = this.state;
 		
 		
-		fetch('http://192.168.1.68/Base/user_register.php', {
-			method: 'post',
-			header:{
-				'Accept': 'application/json',
-				'Content-type': 'application/json'
-			},
-			body:JSON.stringify({
-				pUsuario: TextInputNombre,
-        pPass: TextInputPass,
-        pCorreo: TextInputCorreo,
-			})
-			
-		})
-		.then((response) => response.text())
-      .then((responseData) =>{
-        //alert(responseData);
-        if(responseData==1){
-          Alert.alert("Registro exitoso");
-        }else{
-          Alert.alert("Ocurrió un error, asegurate de llenar correctamente todos los campos");
-        }
-      })
-      .catch((error)=>{
-          console.error(error);
-      });
-  }
+ register = () => api.registerData(this.state.email, this.state.user, this.state.pass)
   render(){
   const navegar = this.props.navigation;
-    return(
+    return(  
        <Container>
         <Header />
         <Content padder contentContainerStyle = {misEstilos.content}>
@@ -64,36 +33,41 @@ class Registro extends Component {
               <Body style = {misEstilos.body}>
                 <Item inlineLabel>
                   <Icon type= 'FontAwesome' name= 'user'></Icon>
-                  <TextInput placeholder= 'Username' onChangeText={TextInputNombre =>this.setState({TextInputNombre})}/>
+                  <Input placeholder= 'Nombre de usuario'
+                            //value={this.state.user}
+                            onChangeText={(user)=>this.setState({user})}/>
                 </Item>
                 <Item inlineLabel last>
                   <Icon type= 'MaterialCommunityIcons' name= 'email'></Icon>
-                  <Input placeholder = 'Correo' onChangeText={TextInputCorreo =>this.setState({TextInputCorreo})}/>
+                  <Input placeholder= 'Correo'
+                            //value={this.state.correo}
+                            onChangeText={(email)=>this.setState({email})}/>
                 </Item>
                 <Item inlineLabel last>
                   <Icon type= 'FontAwesome' name= 'lock'></Icon>
-                  <TextInput placeholder = 'Constraseña' onChangeText={TextInputPass =>this.setState({TextInputPass})}/>
+                  <Input placeholder= 'Contraseña'
+                            //value={this.state.pass}
+                            onChangeText={(pass)=>this.setState({pass})}/>
                 </Item>
-                <Item inlineLabel last>
-                  <Icon type= 'FontAwesome' name= 'lock'></Icon>
-                  <Input placeholder= 'Confirmar contraseña'/>
+               <Item inlineLabel last>
+                            <TouchableOpacity
+		                        onPress={this.register}
+                            style={{width:250,padding:10, backgroundColor:'blue',
+                            alignItems:'center'}}>
+                            <Text style={{color:'#fff'}}>Registrarse</Text>
+                            </TouchableOpacity>
                 </Item>
               </Body>
             </CardItem>
-            <CardItem footer bordered>
-             <Button  style= {misEstilos.container} onPress={() => navegar.navigate                   ('Login')}>
-            <Text>Registrar</Text>
-             </Button> 
-             
-            </CardItem>
+           
           </Card>
           <Button full>
             <Icon type= 'AntDesign' name= 'facebook-square'></Icon>
-
+          
           </Button>
         </Content>
-        
       </Container>
+      
     );
   }
 }
@@ -107,15 +81,10 @@ const misEstilos = StyleSheet.create({
     textAlign: 'center',
     width: '100%',
   },
+
   body: {
-    paddingVertical: 35,
-  },
-  container: {
-        flex: 1,
-        flexDirection: 'column', 
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
+    paddingVertical: 35
+  }
 
 });
 
